@@ -39,15 +39,16 @@ import socketserver
 
 class CustomHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/up':
-            self.path = 'avidpy.html'
-        if self.path == '/down':
-            self.path = 'avidpy.txt'
-
         self.send_response(200)
         self.send_header("Content-type", "text/html")
         self.end_headers()
-        self.wfile.write(bytes(page, "utf-8"))
+
+        if self.path == '/up':
+            self.wfile.write(bytes("up", "utf-8"))
+        elif self.path == '/down':
+            self.wfile.write(bytes("down", "utf-8"))
+        else:
+            self.wfile.write(bytes(page, "utf-8"))
 
 PORT = 8888
 
