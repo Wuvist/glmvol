@@ -18,9 +18,8 @@ func main() {
 	robotgo.MouseSleep = 100
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		// Click glm app on dock
-		robotgo.Move(26, 637)
-		robotgo.Click()
+		// Activate glm
+		robotgo.ActiveName("GLMv4")
 
 		// Move to volumn bar
 		robotgo.Move(215, 600)
