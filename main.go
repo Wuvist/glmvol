@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"embed"
+	"image/png"
 	"net/http"
 
 	"github.com/go-vgo/robotgo"
@@ -16,7 +18,7 @@ func main() {
 	robotgo.MouseSleep = 100
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		robotgo.Move(21, 357)
+		robotgo.Move(26, 637)
 		robotgo.Click()
 		w.Write(index)
 	})
@@ -27,6 +29,17 @@ func main() {
 		for i := 1; i <= 5; i++ {
 			robotgo.Scroll(0, 10)
 		}
+	})
+
+	http.HandleFunc("/vol", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "image/png")
+
+		volImg := robotgo.CaptureImg(120, 80, 80, 30)
+		buff := new(bytes.Buffer)
+
+		// encode image to buffer
+		png.Encode(buff, volImg)
+		w.Write(buff.Bytes())
 	})
 
 	http.HandleFunc("/up", func(w http.ResponseWriter, req *http.Request) {

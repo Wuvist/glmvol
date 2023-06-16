@@ -8,6 +8,14 @@
 <link rel="apple-touch-icon" href="genelec.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <style>
+body{
+  background-color:#3c3c3d;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 .block {
   display: block;
   width: 100%;
@@ -26,15 +34,26 @@
   color: black;
 }
 </style>
+<script type="text/javascript">
+function reload()
+{
+  img = document.getElementById("vol");
+  img.src="/vol?i=" + Math.random();
+}
+function adjust(url)
+{
+  fetch(url).then(e => reload());
+}
+</script>
 </head>
 <body>
+<img id="vol" src="/vol" width="80" height="30" class="center" />
+<button class="block" onclick="adjust('/upup')">+++ +++ +++ +++</button>
 <br />
-<button class="block" onclick="fetch('/upup')">+++ +++ +++ +++</button>
+<button class="block" onclick="adjust('/up')">+++</button>
 <br />
-<button class="block" onclick="fetch('/up')">+++</button>
+<button class="block" onclick="adjust('/down')">---</button>
 <br />
-<button class="block" onclick="fetch('/down')">---</button>
-<br />
-<button class="block" onclick="fetch('/downdown')">--- --- ---</button>
+<button class="block" onclick="adjust('/downdown')">--- --- ---</button>
 </body>
 </html>
