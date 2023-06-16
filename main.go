@@ -18,40 +18,43 @@ func main() {
 	robotgo.MouseSleep = 100
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
+		// Click glm app on dock
 		robotgo.Move(26, 637)
 		robotgo.Click()
+
+		// Move to volumn bar
+		robotgo.Move(215, 600)
 		w.Write(index)
 	})
 	http.HandleFunc("/genelec.png", func(w http.ResponseWriter, req *http.Request) {
 		w.Write(genelec)
 	})
+
+	http.HandleFunc("/vol", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "image/png")
+
+		// Capture volumn from glm
+		volImg := robotgo.CaptureImg(175, 80, 80, 30)
+		buff := new(bytes.Buffer)
+		png.Encode(buff, volImg)
+		w.Write(buff.Bytes())
+	})
+
+	http.HandleFunc("/up", func(w http.ResponseWriter, req *http.Request) {
+		robotgo.Scroll(0, 10)
+	})
+
 	http.HandleFunc("/upup", func(w http.ResponseWriter, req *http.Request) {
 		for i := 1; i <= 5; i++ {
 			robotgo.Scroll(0, 10)
 		}
 	})
 
-	http.HandleFunc("/vol", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "image/png")
-
-		volImg := robotgo.CaptureImg(120, 80, 80, 30)
-		buff := new(bytes.Buffer)
-
-		// encode image to buffer
-		png.Encode(buff, volImg)
-		w.Write(buff.Bytes())
-	})
-
-	http.HandleFunc("/up", func(w http.ResponseWriter, req *http.Request) {
-		robotgo.Move(157, 600)
-		robotgo.Scroll(0, 10)
-	})
 	http.HandleFunc("/down", func(w http.ResponseWriter, req *http.Request) {
-		robotgo.Move(157, 600)
 		robotgo.Scroll(0, -10)
 	})
+
 	http.HandleFunc("/downdown", func(w http.ResponseWriter, req *http.Request) {
-		robotgo.Move(157, 600)
 		for i := 1; i <= 5; i++ {
 			robotgo.Scroll(0, -10)
 		}
